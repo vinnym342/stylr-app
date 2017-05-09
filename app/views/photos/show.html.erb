@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Styleboards:</strong>
+  <%= @photo.styleboard %>
+</p>
+
+<p>
+  <strong>Caption:</strong>
+  <%= @photo.caption %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= image_tag @photo.location %>
+</p>
+<div class="comments">
+  <% if @comments.present? %>
+    <% @comments.each do |comment| %>
+      <div class="comment">
+        @<%= User.find(comment.user_id).profile.username %> <br>
+        <%= comment.comment %>
+      </div>
+    <% end %>
+  <% else %>
+  No comments
+  <% end %>
+  <%= form_for @comment,url: styleboard_photo_comments_path(@styleboard,@photo), method: :post do |f|%>
+  <%= f.text_area :comment %>
+  <%= f.button '<i class="fa fa-comment" aria-hidden="true"></i>'.html_safe %>
+  <% end %>
+  <%# Hacking? %>
+</div>
+
+<%= link_to 'Edit', edit_styleboard_photo_path(@photo) %>
+<%= link_to 'Back', styleboard_photos_path %>

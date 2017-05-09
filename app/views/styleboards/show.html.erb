@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @styleboard.description %>
+</p>
+
+<p>
+  <strong>Public:</strong>
+  <%= @styleboard.public %>
+</p>
+
+<p>
+  <%= image_tag @styleboard.photo %>
+</p>
+
+<%= link_to 'View', styleboard_photos_path(@styleboard) %> |
+<%= link_to 'Edit', edit_styleboard_path(@styleboard) %> |
+<%= link_to 'Back', styleboards_path %>

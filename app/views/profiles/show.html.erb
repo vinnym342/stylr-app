@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Followers:</strong>
+  <%= @followers_count %>
+</p>
+
+<p>
+  <strong>Following:</strong>
+  <%= @following_count %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @profile.first_name %> <%= @profile.last_name %>
+</p>
+
+<p>
+  <strong>Profile pic:</strong>
+  <%= image_tag @profile.profile_pic, height: '30%' %>
+</p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @profile.username %>
+</p>
+
+<p>
+  <strong>Bio:</strong>
+  <%= @profile.bio %>
+</p>
+
+<% if @professional_profile.present? %>
+    <%= link_to "View professional profile",professional_profile_path(@professional_profile) %>
+    <br>
+<% else %>
+  <% if @profile.user == current_user %>
+    <%= link_to "Become a stylist",new_professional_profile_path(current_user) %>
+    <br>
+  <% end %>
+<% end %>
+<% if current_user.id != @profile.user_id %>
+<%= form_for @follower, url: profile_followers_path(@profile) ,method: :post do |f| %>
+  <%= f.button ProfilesHelper.following?(@current_user,@profile.user) %>
+<% end %>
+<% end %>
+
+<%# link_to ProfilesHelper.following?(@current_user , @profile.user) %>
+<% if current_user == @profile.user %>
+<%= link_to 'Edit', edit_profile_path(@profile) %>
+<% end %>
+<%= link_to 'Back', profiles_path %>

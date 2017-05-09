@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @professional_profile.user %>
+</p>
+<% if @reviews_present %>
+<p>
+  <strong>Reviews:</strong> <br>
+  Number reviews: <%= @review_count %> <br>
+  Usefulness: <%= @userfulness_score %> <br>
+  friendliness: <%= @friendliness %> <br>
+</p>
+<% else %>
+<p>
+  <strong>No reviews</strong>
+</p>
+<% end %>
+
+<p>
+  <strong>Message price:</strong>
+  <%= @professional_profile.message_price %>
+</p>
+
+<% if @professional_profile.user == current_user %>
+<%= link_to 'Edit', edit_professional_profile_path(@professional_profile) %>
+<% else %>
+<%= form_for @professional_profile, url: conversations_path ,method: :post do |f| %>
+  <%= f.hidden_field :stylist_id, value: @professional_profile.user.id  %>
+  <%= text_field :question , :question %>
+  <%= f.button '<i class="fa fa-commenting" aria-hidden="true"></i>'.html_safe %>
+<% end %>
+<% end %>
+<%= link_to 'Home', '/' %>

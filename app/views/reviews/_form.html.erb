@@ -1,0 +1,32 @@
+<%= form_for review  do |f| %>
+  <% if review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+      <% review.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :usefulness %>
+    <%= f.select :usefulness,options_for_select((1..5).map {|x| [x,x]})%>
+  </div>
+
+  <div class="field">
+    <%= f.label :friendliness %>
+    <%= f.select :friendliness,options_for_select((1..5).map {|x| [x,x]})%>
+  </div>
+
+  <div class="field">
+    <%= f.label :comments %>
+    <%= f.text_area :comments %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

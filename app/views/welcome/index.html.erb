@@ -1,0 +1,74 @@
+<h1>Welcome <%= @myprofile.first_name %></h1>
+
+<%= link_to "View all styleboard", styleboards_url %> <br>
+<%= link_to "View Profile", myprofile_path %>
+
+<%# Make it so it switches from one div to another, by two buttons. %>
+<h2>You asked people</h2>
+
+<div class="questions">
+  <% if @questions_asked.present? %>
+
+  <% @questions_asked.each do |conversation| %> <br>
+  <%= render("question_block", conversation: conversation, username: Profile.find_by(user_id: conversation.stylist_id).username) %>
+  <% end %>
+
+  <% else %>
+  <p>You have not asked any questions</p>
+  <% end %>
+</div>
+
+
+<h2>People asked you:</h2>
+
+<% if @questions_to_answer.present? %>
+<%# Add those to questions to make it stop wrapping after a certain nmber of elements %>
+<%# http://stackoverflow.com/questions/19574851/how-to-specify-an-element-after-which-to-wrap-in-css-flexbox %>
+<div class="questions">
+
+  <% @questions_to_answer.each do |conversation| %> <br>
+  <%= render("question_block", conversation: conversation, username: Profile.find_by(user_id: conversation.asker_id).username) %>
+  <% end %>
+
+</div>
+
+
+
+<% else %>
+  <p>No one has asked you any questions</p>
+<% end %>
+
+<h2>Questions you've answered</h2>
+
+<% if @their_questions_answered.present? %>
+<%# Add those to questions to make it stop wrapping after a certain nmber of elements %>
+<%# http://stackoverflow.com/questions/19574851/how-to-specify-an-element-after-which-to-wrap-in-css-flexbox %>
+<div class="questions">
+  <% @their_questions_answered.each do |conversation| %> <br>
+  <%= render("question_block", conversation: conversation, username: Profile.find_by(user_id: conversation.asker_id).username) %>
+  <% end %>
+</div>
+
+
+<% else %>
+  <p>No one has asked you any questions</p>
+<% end %>
+
+<h2>Questions they've answered</h2>
+
+<% if @my_questions_answered.present? %>
+<%# Add those to questions to make it stop wrapping after a certain nmber of elements %>
+<%# http://stackoverflow.com/questions/19574851/how-to-specify-an-element-after-which-to-wrap-in-css-flexbox %>
+
+<div class="questions">
+  <% @my_questions_answered.each do |conversation| %> <br>
+  <%= render("question_block", conversation: conversation, username: Profile.find_by(user_id: conversation.asker_id).username) %>
+  <% if !conversation.review.present? %>
+  <%= link_to "Write a review", new_conversation_review_path(conversation) %>
+  <% end %>
+  <% end %>
+</div>
+
+<% else %>
+  <p>No one has asked you any questions</p>
+<% end %>

@@ -1,0 +1,59 @@
+<div class="photo-page">
+  <p id="notice"><%= notice %></p>
+    <h1>Photos</h1>
+    <div class="photos">
+      <% if @photos.present?%>
+          <% @photos.each do |photo| %>
+          <div class="photo">
+            @<%= photo.user.profile.username if photo.user.profile != nil %>
+            <%= image_tag photo.location %>
+            <%= photo.caption %>
+            <% ratio = PhotosHelper.ratio_of_likes(photo) %>
+            <div class="like-bar">
+              <div class="buttons">
+                <div class="like">
+                  <%= form_for photo, url: styleboard_photo_like_path(@styleboard,photo) do |f| %>
+                  <%= f.hidden_field :like, :value => '1' %>
+                  <%= f.button PhotosHelper.liked?(current_user,photo)%>
+                  <div class="likes-number">
+                    <%= photo.likes.where(liked: true).count %>
+                  </div>
+                  <% end %>
+                </div>
+                <div class="dislike">
+                  <%= form_for photo, url: styleboard_photo_like_path(@styleboard,photo) do |f| %>
+                  <%= f.hidden_field :like, :value => '0' %>
+                  <%= f.button PhotosHelper.disliked?(current_user,photo)%>
+                  <div class="dislikes-number">
+                    <%= photo.likes.where(liked: false).count %>
+                  </div>
+                  <% end %>
+                </div>
+                <% like_ratio = PhotosHelper.ratio_of_likes(photo) %>
+                <div class="bottom">
+                  <div class="bar">
+                  <span class="bar-likes" style="width: <%= like_ratio %>%;"></span>
+                  <span class="bar-dislikes" style="width: <%= 100 - like_ratio %>%;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if photo.user == current_user %>
+            <%= link_to 'Show', [@styleboard, photo] %>
+            <%= link_to 'Edit', edit_styleboard_photo_path(@styleboard , photo) %>
+            <%= link_to 'Destroy', [@styleboard , photo], method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+        <% end %>
+        <% else %>
+        <h3>No photos added</h3>
+        <% end %>
+    </div>
+    <br>
+    <% if @styleboard.public == true %>
+    <%= link_to 'New Photo', new_styleboard_photo_path %>
+    <% elsif @styleboard.user == current_user %>
+    <%= link_to 'New Photo', new_styleboard_photo_path %>
+    <% end %>
+
+</div>

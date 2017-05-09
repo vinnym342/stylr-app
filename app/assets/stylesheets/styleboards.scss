@@ -1,0 +1,56 @@
+// Place all the styles related to the Styleboards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.styleboard-page {
+  .styleboards {
+    width: 100%;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: row;
+    .styleboard {
+      padding: auto 0 auto 0;
+      background-color: #c6ff8e;
+      width: 20%;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      img{
+        margin-left: auto;
+        margin-right: auto;
+        width:100%;
+        margin-bottom: 0;
+      }
+      .like-bar {
+        width:100%;
+        .buttons {
+          display: inline-block;
+          width:100%;
+          .like {
+            float: left;
+          }
+          .dislike {
+            float:right;
+          }
+        }
+        .bottom {
+          .bar {
+            overflow: hidden;
+            width: 100%;
+            margin: auto;
+            .likes,
+            .dislikes {
+              float: left;
+              height: 20px;
+            }
+            .likes {
+              background: green;
+            }
+            .dislikes {
+              background: red;
+            }
+          }
+          }
+      }
+        }
+      }
+    }

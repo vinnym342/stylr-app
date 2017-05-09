@@ -1,0 +1,9 @@
+<div class="<%= html_class %>">
+  <%= form_for styleboard, url: styleboard_like_path(styleboard) do |f| %>
+  <%= f.hidden_field :like, value: like %>
+  <%= f.button button %>
+  <% end %>
+  <div class="number">
+    <%= styleboard.likes.where(liked: like).count %>
+  </div>
+</div>

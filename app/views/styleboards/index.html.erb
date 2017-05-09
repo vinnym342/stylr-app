@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<div class="styleboard-page">
+  <h1>Styleboards</h1>
+  <div class="styleboards">
+      <% @styleboards.each do |styleboard| %>
+          <div class="styleboard">
+            user:<%= styleboard.user.profile.username if styleboard.user.profile != nil %> <br>
+            Description:<%= styleboard.description %> <br>
+            <%= styleboard.public %> <br>
+            <%= image_tag styleboard.photo %> <br>
+            <div class="like-bar">
+                <div class="buttons">
+                  <%= render 'like_dislike', html_class: 'like',styleboard: styleboard, like: true,current_user: current_user,button: StyleboardsHelper.liked?(current_user,styleboard) %>
+                  <%= render 'like_dislike', html_class: 'dislike',styleboard: styleboard, like: false,current_user: current_user,button: StyleboardsHelper.disliked?(current_user,styleboard) %>
+                </div>
+                <% like_ratio = StyleboardsHelper.ratio_of_likes(styleboard) %>
+                <div class="bottom">
+                  <div class="bar">
+                  <span class="likes" style="width: <%= like_ratio %>%;"></span>
+                  <span class="dislikes" style="width: <%= 100 - like_ratio %>%;"></span>
+                  </div>
+                </div>
+            </div>
+            <%= link_to 'View', styleboard_photos_path(styleboard) %> <br>
+
+            <% if styleboard.user == current_user %>
+            <!-- Make this part a dropdown menu, with a little admin symbol -->
+            <%= link_to 'Show', styleboard %>
+            <%= link_to 'Edit', edit_styleboard_path(styleboard) %>
+            <%= link_to 'Destroy', styleboard, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+      <% end %>
+
+  <br>
+  </div>
+  <%= link_to 'New Styleboard', new_styleboard_path %>
+  </div>

@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+Question: <%= @conversation.question %> <br>
+Talking to: <%= @pen_pal.username %>
+<h1>Messages</h1>
+    <% if @messages.present? %>
+    <div class="messages">
+      <% @messages.each do |message| %>
+        <div class="message">
+          <% if message.sender_id == current_user.id%>
+            <div class="box received">
+          <% else %>
+            <div class="box sent">
+          <% end %>
+          <%= message.message %>
+          <br>
+          <sub><%= time_ago_in_words(message.created_at) %> ago</sub>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <% else %>
+    <p>No messages sent yet</p>
+    <% end %>
+    <%# Can be hacked super easily %>
+    <%= form_for @conversation, url:conversation_path(@conversation), method: :patch do |f|%>
+    <%= f.hidden_field :resolved , value: true %>
+    <%= f.button 'resolved?' %>
+    <% end %>
+  </div>
+  <%= form_for @message, url: conversation_messages_path(@conversation), method: :post do |f| %>
+  <%= f.hidden_field :sender_id, value: @current_user_id %>
+  <%= f.text_field :message %>
+  <%= f.button '<i class="fa fa-commenting" aria-hidden="true"></i>'.html_safe %>
+  <% end %>
+
+<br>

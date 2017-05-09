@@ -1,0 +1,8 @@
+<div class="question">
+  <% puts '=' * 50 %>
+  <% pp conversation %>
+  <% puts '=' * 50 %>
+  Username: <%= username %> <br>
+  Question: <%= conversation.question %> <br>
+  <%= link_to "View",conversation_messages_path(conversation) %>
+</div>
